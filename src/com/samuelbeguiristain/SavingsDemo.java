@@ -34,6 +34,7 @@ public class SavingsDemo
         savings.deposit(23.98);
         savings.deposit(16.36);
         savings.deposit(21.01);
+        savings.withdraw(69.69);
 
         System.out.println("Balance: " +
                 dollar.format(savings.getBalance()));
@@ -52,7 +53,7 @@ public class SavingsDemo
                 savings.getNumWithdrawals());
         writer.println();
 
-
+        savings.deposit(23.98);
         savings.withdraw(69.69);
         savings.withdraw(41.52);
         savings.withdraw(100.51);
