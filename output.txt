@@ -2,15 +2,15 @@ Balance: $1,000.00
 Number of deposits: 0
 Number of withdrawals: 0
 
-Balance: $991.66
+Balance: $800.00
 Number of deposits: 3
 Number of withdrawals: 1
 
-Balance: $764.62
+Balance: $400.00
 Number of deposits: 4
 Number of withdrawals: 8
 
-Balance: $1,394.47
+Balance: $396.99
 Number of deposits: 0
 Number of withdrawals: 0
 

@@ -16,11 +16,12 @@ import java.text.DecimalFormat;
     public class Main extends Application {
 
     Stage window;
-    Scene balanceScene, interestScene, serviceScene, totalMonths, withdrawScene, depositScene;
-    Button balanceButton, interestButton, serviceButton, monthsButton, withdrawButton, depositButton, calculateButton;
+    Scene balanceScene, interestScene, serviceScene, withdrawScene, depositScene, mainMenu;
+    Button balanceButton, interestButton, serviceButton, monthsButton, withdrawButton,
+            depositButton, calculateButton, primeDeposit, primeWithdraw, newMonth;
     double balanceInput, interestInput,
-            serviceInput, withdrawInput, depositInput;
-    int monthsInput, counter = 0;
+            serviceInput;
+    int counter = 1;
     SavingsAccount savings;
     public static void main(String[] args) {
         launch(args);
@@ -54,47 +55,69 @@ import java.text.DecimalFormat;
         withdrawButton = new Button("Enter");
         depositButton = new Button("Enter");
         calculateButton = new Button("Calculate");
+        primeDeposit = new Button("Deposit");
+        primeWithdraw = new Button("Withdraw");
+        newMonth = new Button("New Month");
 
         //Button Actions
         balanceButton.setOnAction( e ->{
             isDouble(balance, balance.getText());
             balanceInput = Double.parseDouble(balance.getText());
             window.setScene(interestScene);
-            savings = new SavingsAccount(balanceInput, interestInput, monthsInput);
+            savings = new SavingsAccount(balanceInput, interestInput, serviceInput);
         });
         interestButton.setOnAction( e ->{
             isDouble(interestRate, interestRate.getText());
-            interestInput = Double.parseDouble(interestRate.getText());
+            savings.setInterestRate(Double.parseDouble(interestRate.getText()));
             window.setScene(serviceScene);
         });
         serviceButton.setOnAction( e ->{
             isDouble(monthlyServiceCharge, monthlyServiceCharge.getText());
-            serviceInput = Double.parseDouble(monthlyServiceCharge.getText());
-            window.setScene(totalMonths);
-        });
-        monthsButton.setOnAction( e ->{
-            isInt(textMonths, textMonths.getText());
-            monthsInput = Integer.parseInt(textMonths.getText());
+            savings.setMonthlyServiceCharge(Double.parseDouble(monthlyServiceCharge.getText()));
+            window.setScene(mainMenu);
         });
 
         //Calculations
         calculateButton.setOnAction( e ->{
-                System.out.println("Month: " + (counter++));
+                System.out.println("Month: " + counter);
                 System.out.println("Balance: " +
                         dollar.format(savings.getBalance()));
                 System.out.println("Number of deposits: " +
                         savings.getNumDeposits());
                 System.out.println("Number of withdrawals: " +
                         savings.getNumWithdrawals());
+                System.out.println("Interest Rate: " + savings.getInterestRate());
+                System.out.println("Monthly Service Charges: " + savings.getMonthlyServiceCharges());
         });
         withdrawButton.setOnAction( e ->{
             isDouble(withdrawAmount, withdrawAmount.getText());
             savings.withdraw(Double.parseDouble(withdrawAmount.getText()));
+            window.setScene(mainMenu);
         });
         depositButton.setOnAction( e ->{
             isDouble(depositAmount, depositAmount.getText());
             savings.deposit(Double.parseDouble(depositAmount.getText()));
+            window.setScene(mainMenu);
         });
+        primeWithdraw.setOnAction( e -> window.setScene(withdrawScene));
+        primeDeposit.setOnAction( e -> window.setScene(depositScene));
+        newMonth.setOnAction( e ->{
+            savings.monthlyProcess();
+            System.out.println("Month: " + (counter++));
+            System.out.println("Balance: " +
+                    dollar.format(savings.getBalance()));
+            System.out.println("Number of deposits: " +
+                    savings.getNumDeposits());
+            System.out.println("Number of withdrawals: " +
+                    savings.getNumWithdrawals());
+            System.out.println("Interest Rate: " +
+                    savings.getInterestRate());
+            System.out.println("Monthly Service Charges: " +
+                    savings.getMonthlyServiceCharges());
+            window.setScene(serviceScene);
+
+        });
+
         //Layout
         VBox balanceLayout = new VBox(10);
         balanceLayout.setPadding(new Insets(20, 20, 20, 20));
@@ -108,17 +131,18 @@ import java.text.DecimalFormat;
 
         VBox serviceLayout = new VBox(10);
         serviceLayout.setPadding(new Insets(20, 20, 20, 20));
-        Text serviceText = new Text("Enter Monthly Service Fee: ");
+        Text serviceText = new Text("Enter Monthly Service Charge: ");
         serviceLayout.getChildren().addAll(serviceText, monthlyServiceCharge, serviceButton);
 
-        StackPane monthsLayout = new StackPane();
-        monthsLayout.setPadding(new Insets(20, 20, 20, 20));
-        Text monthsLayoutText = new Text("Enter the amount of months: ");
-        StackPane.setAlignment(monthsLayoutText, Pos.TOP_LEFT);
-        StackPane.setAlignment(textMonths, Pos.CENTER_LEFT);
-        StackPane.setAlignment(monthsButton, Pos.BOTTOM_LEFT);
-        StackPane.setAlignment(calculateButton, Pos.BOTTOM_CENTER);
-        monthsLayout.getChildren().addAll(monthsLayoutText, textMonths, monthsButton, calculateButton);
+        StackPane menuDepositWithdraw = new StackPane();
+        menuDepositWithdraw.setPadding(new Insets(20, 20, 20, 20));
+        Text menuText = new Text("What would you like to do?");
+        StackPane.setAlignment(menuText, Pos.TOP_LEFT);
+        StackPane.setAlignment(calculateButton, Pos.CENTER);
+        StackPane.setAlignment(primeDeposit, Pos.CENTER_LEFT);
+        StackPane.setAlignment(primeWithdraw, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(newMonth, Pos. BOTTOM_CENTER);
+        menuDepositWithdraw.getChildren().addAll(calculateButton, primeDeposit, primeWithdraw, newMonth);
 
         VBox depositLayout = new VBox(10);
         depositLayout.setPadding(new Insets(20, 20, 20, 20));
@@ -134,9 +158,9 @@ import java.text.DecimalFormat;
         balanceScene = new Scene(balanceLayout, 300, 120);
         interestScene = new Scene(interestLayout, 300, 120);
         serviceScene = new Scene(serviceLayout, 300, 120);
-        totalMonths = new Scene(monthsLayout, 300, 120);
         withdrawScene = new Scene(withdrawLayout, 300, 120);
         depositScene = new Scene(depositLayout, 300, 120);
+        mainMenu = new Scene(menuDepositWithdraw, 300, 120);
 
         window.setScene(balanceScene);
         window.show();

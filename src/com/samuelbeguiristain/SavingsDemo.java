@@ -12,7 +12,7 @@ public class SavingsDemo
         DecimalFormat dollar = new DecimalFormat("$#,##0.00");
 
         SavingsAccount savings =
-                new SavingsAccount(500.0, 0.03, 1.00);
+                new SavingsAccount(1000, 0.03, 1.00);
         System.out.println("Balance: " +
                 dollar.format(savings.getBalance()));
         System.out.println("Number of deposits: " +
@@ -31,10 +31,10 @@ public class SavingsDemo
         writer.println();
 
 
-        savings.deposit(23.98);
-        savings.deposit(16.36);
-        savings.deposit(21.01);
-        savings.withdraw(69.69);
+        savings.deposit(100);
+        savings.deposit(100);
+        savings.deposit(100);
+        savings.withdraw(500);
 
         System.out.println("Balance: " +
                 dollar.format(savings.getBalance()));
@@ -53,14 +53,14 @@ public class SavingsDemo
                 savings.getNumWithdrawals());
         writer.println();
 
-        savings.deposit(23.98);
-        savings.withdraw(69.69);
-        savings.withdraw(41.52);
-        savings.withdraw(100.51);
-        savings.withdraw(36.30);
-        savings.withdraw(1.00);
-        savings.withdraw(1.00);
-        savings.withdraw(1.00);
+        savings.deposit(100);
+        savings.withdraw(100);
+        savings.withdraw(100);
+        savings.withdraw(110);
+        savings.withdraw(110);
+        savings.withdraw(50);
+        savings.withdraw(20);
+        savings.withdraw(10);
 
         System.out.println("Balance: " +
                 dollar.format(savings.getBalance()));

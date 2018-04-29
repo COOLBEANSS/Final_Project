@@ -80,6 +80,10 @@ public abstract class BankAccount {
         monthlyServiceCharge = amount;
     }
 
+    public void setInterestRate(double interest){
+        interestRate = interest;
+    }
+
     public double getBalance(){
         return balance;
     }
